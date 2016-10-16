@@ -17,25 +17,29 @@
                         <li class="{{ Request::is('/') ? "active" : "" }}"><a href="/">Home <span class="sr-only">(current)</span></a></li>
                         <li class="{{ Request::is('about') ? "active" : "" }}"><a href="/about">About</a></li>
                         <li class="{{ Request::is('contact') ? "active" : "" }}"><a href="/contact">Contact</a></li>
-                        <li class="dropdown {{ Request::is('posts/') ? "active" : "" }} {{ Request::is('posts/create') ? "active" : "" }}">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Posts <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li class="{{ Request::is('posts') ? "active" : "" }}"><a href="/posts">View Posts</a></li>
-                                <li class="{{ Request::is('posts/create') ? "active" : "" }}"><a href="/posts/create">Create Posts</a></li>
-                            </ul>
-                        </li>
+                        <li class="{{ Request::is('blog') ? "active" : "" }}"><a href="/blog">Blog</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                            </ul>
-                        </li>
+                        @if (Auth::check())
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{Auth::user()->name}} <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li class="{{Request::is('posts') ? "active" : ""}}"><a href="{{route('posts.index')}}">Posts</a></li>
+                                    <li class="{{Request::is('categories') ? "active" : ""}}"><a href="{{route('categories.index')}}">Categories</a></li>
+                                    <li class="{{Request::is('tags') ? "active" : ""}}"><a href="{{route('tags.index')}}">Tags</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="{{route('logout')}}">Logout</a></li>
+                                </ul>
+                            </li>
+                        @else
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Account <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li class="{{Request::is('auth/login') ? "active" : null}}"><a href="{{route('login')}}">Login</a></li>
+                                    <li class="{{Request::is('auth/register') ? "active" : null}}"><a href="{{route('register')}}">Register</a></li>
+                                </ul>
+                            </li>
+                        @endif
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->

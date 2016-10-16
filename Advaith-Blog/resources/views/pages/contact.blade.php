@@ -4,14 +4,6 @@
 
 @section('content')
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="jumbotron">
-                        <h1>Welcome to my Blog</h1>
-                        <p class="lead">This is my first laravel blog.</p>
-                        <p><a class="btn btn-primary btn-lg" href="#" role="button">Latest Post</a></p>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <h1>Contact Advaith A J</h1>
@@ -32,7 +24,6 @@
                             <input type="submit" value="Send Message" class="btn btn-success">
                         </form>
                     </div>
-                </div>
                 </div>
 
 @endsection
