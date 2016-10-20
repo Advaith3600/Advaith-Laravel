@@ -5,6 +5,14 @@
 @section('stylesheets')
 
 	{!! Html::style('css/select2.min.css') !!}
+	<script src="{{asset('tinymce/tinymce.min.js')}}"></script>
+	<script>
+		tinymce.init({ 
+			selector:'textarea',
+			plugins: 'link code',
+			menubar: false
+		});
+	</script>
 	<style type="text/css">
 		span.select2.select2-container.select2-container--default {
 			width: 100%!Important;

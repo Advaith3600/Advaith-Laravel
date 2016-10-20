@@ -6,6 +6,14 @@
 
 	{!! Html::style('css/parsley.css') !!}
 	{!! Html::style('css/select2.min.css') !!}
+	<script src="{{asset('tinymce/tinymce.min.js')}}"></script>
+	<script>
+		tinymce.init({ 
+			selector:'textarea',
+			plugins: 'link code',
+			menubar: false
+		});
+	</script>
 	<style type="text/css">
 		form > select + span {
 			width: 100%!Important;
@@ -37,7 +45,7 @@
 					@endforeach
 				</select>
 				{{ Form::label('body', 'Post Body:') }}
-				{{ Form::textarea('body', null, array('class' => 'form-control', 'placeholder' => 'post body...', 'required' => '')) }}
+				{{ Form::textarea('body', null, array('class' => 'form-control', 'placeholder' => 'post body...')) }}
 				{{ Form::submit('Create Post', array('class' => 'btn btn-success btn-lg btn-block', 'style' => 'margin-top: 20px;')) }}
 			{!! Form::close() !!}
 		</div>
