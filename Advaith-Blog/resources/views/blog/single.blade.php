@@ -12,6 +12,7 @@
 
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
+			<img src="{{asset('images/Comment/' . $post->image)}}" alt="Image" width="100%" height="400">
 			<h1>{{$post->title}}</h1>
 			<p>{!!$post->body!!}</p>
 			<hr>
@@ -33,13 +34,13 @@
 							<p class="author-time">{{date("F nS Y - G:iA", strtotime($comment->created_at))}}</p>
 						</div>
 					</div>
-						
-					
+
+
 					<div class="comment-content">
 						{{$comment->comment}}
 					</div>
-						
-					
+
+
 				</div>
 			@endforeach
 		</div>

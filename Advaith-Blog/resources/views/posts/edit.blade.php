@@ -7,7 +7,7 @@
 	{!! Html::style('css/select2.min.css') !!}
 	<script src="{{asset('tinymce/tinymce.min.js')}}"></script>
 	<script>
-		tinymce.init({ 
+		tinymce.init({
 			selector:'textarea',
 			plugins: 'link code',
 			menubar: false
@@ -24,7 +24,7 @@
 @section('content')
 
 	<div class="row">
-		{!! Form::model($post, ['route' => ['posts.update', $post->id], 'method' => 'PUT']) !!}
+		{!! Form::model($post, ['route' => ['posts.update', $post->id], 'method' => 'PUT', 'files' => true]) !!}
 			<div class="col-md-8">
 				{{ Form::label('title', 'Title:') }}
 				{{ Form::text('title', null, array('class' => 'form-control input-lg', 'placeholder' => 'title...')) }}
@@ -34,6 +34,8 @@
 				{{ Form::select('category_id', $categories, null, ['class' => 'form-control']) }}
 				{{ Form::label('tags', 'Tags:', ['style' => 'margin-top: 20px;']) }}
 				{{ Form::select('tags[]', $tags, null, ['class' => 'select2-multi form-control', 'multiple' => 'multiple']) }}
+				{{ Form::label('featured_image', 'Featured Image', ['style' => 'margin-top: 20px;']) }}
+				{{ Form::file('featured_image') }}
 				{{ Form::label('body', 'Body:', array('style' => 'margin-top: 20px;')) }}
 				{{ Form::textarea('body', null, array('class' => 'form-control', 'placeholder' => 'body...')) }}
 			</div>

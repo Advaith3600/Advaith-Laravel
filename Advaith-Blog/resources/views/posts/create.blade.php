@@ -8,7 +8,7 @@
 	{!! Html::style('css/select2.min.css') !!}
 	<script src="{{asset('tinymce/tinymce.min.js')}}"></script>
 	<script>
-		tinymce.init({ 
+		tinymce.init({
 			selector:'textarea',
 			plugins: 'link code',
 			menubar: false
@@ -27,7 +27,7 @@
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<h1>Create new Post</h1><hr>
-			{!! Form::open(array('route' => 'posts.store', 'data-parsley-validate' => '')) !!}
+			{!! Form::open(array('route' => 'posts.store', 'data-parsley-validate' => '', 'files' => true)) !!}
 				{{ Form::label('title', 'Title:') }}
 				{{ Form::text('title', null, array('class' => 'form-control', 'placeholder' => 'title...', 'required' => '', 'maxlength' => '255')) }}
 				{{ Form::label('slug', 'Url you want to show this post:') }}
@@ -44,6 +44,8 @@
 						<option value="{{$tag->id}}">{{$tag->name}}</option>
 					@endforeach
 				</select>
+				{{Form::label('featured_image', 'Upload featured image:')}}
+				{{Form::file('featured_image')}}
 				{{ Form::label('body', 'Post Body:') }}
 				{{ Form::textarea('body', null, array('class' => 'form-control', 'placeholder' => 'post body...')) }}
 				{{ Form::submit('Create Post', array('class' => 'btn btn-success btn-lg btn-block', 'style' => 'margin-top: 20px;')) }}

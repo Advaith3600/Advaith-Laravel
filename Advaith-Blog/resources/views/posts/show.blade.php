@@ -6,6 +6,7 @@
 
 	<div class="row">
 		<div class="col-md-8">
+			<img src="{{asset('images/Comment/' . $post->image)}}" alt="Image" width="100%" height="400">
 			<h1>{{ $post->title }}</h1>
 			<p class="lead">{!! $post->body !!}</p>
 			<hr>
@@ -42,7 +43,7 @@
 					@endforeach
 				</tbody>
 			</table>
-			
+
 		</div>
 		<div class="col-md-4">
 			<div class="well">
