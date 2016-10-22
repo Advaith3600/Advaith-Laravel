@@ -30,22 +30,29 @@ class PagesController extends Controller
     	return view('pages.contact');
     }
     public function postContact(Request $request) {
-        $this->validate($request, array(
-            'email' => 'required|email',
-            'subject' => 'min:3',
-            'message' => 'min:5'
-            ));
-        $data = [
-            'email' => $request->email,
-            'subject' => $request->subject,
-            'bodyMessage' => $request->message
-        ];
-        Mail::send('emails.contact', $data, function($message) use ($data) {
-            $message->from($data['email']);
-            $message->to("advaitharunjeena@gmail.com");
-            $message->subject($data['subject']);
-        });
-        Session::flash('success', 'Your email was successfully send');
-        return redirect()->route('home');
+        $token = $request->input('g-recaptcha-response');
+        if (strlen($token) > 0) {
+          $this->validate($request, array(
+              'email' => 'required|email',
+              'subject' => 'min:3',
+              'message' => 'min:5'
+              ));
+          $data = [
+              'email' => $request->email,
+              'subject' => $request->subject,
+              'bodyMessage' => $request->message
+          ];
+          Mail::send('emails.contact', $data, function($message) use ($data) {
+              $message->from($data['email']);
+              $message->to("advaitharunjeena@gmail.com");
+              $message->subject($data['subject']);
+          });
+          Session::flash('success', 'Your email was successfully send');
+          return redirect()->route('home');
+        }
+        else {
+          $errors = "Please verify that you are a human";
+          return view('pages.contact')->withErrors($errors);
+        }
     }
 }
