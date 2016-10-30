@@ -13,6 +13,9 @@
 
 Route::get('/', ['uses' => 'PagesController@getHome', 'as' => 'home']);
 Route::get('/home', 'PagesController@goHome');
+Route::get('/profile', ['uses' => 'PagesController@profile', 'as' => 'profile.index'])->middleware('auth');
+Route::get('/profile/edit', ['uses' => 'PagesController@profileEdit', 'as' => 'profile.edit'])->middleware('auth');
+Route::put('/profile/edit/image/{id}', ['uses' => 'PagesController@profileEditImg', 'as' => 'profile.image'])->middleware('auth');
 // Auth -login
 Route::get('login', ['as' => 'login', 'uses' => 'Auth\LoginController@showLoginForm']);
 Route::post('login', ['as' => 'login.post', 'uses' => 'Auth\LoginController@login']);

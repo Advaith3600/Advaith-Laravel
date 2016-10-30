@@ -24,12 +24,13 @@
       </form>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> {{ Auth::guest() ? 'Account' : Auth::user()->name }} <span class="caret"></span></a>
+          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog"></span> {{ Auth::guest() ? 'Account' : Auth::user()->name }} <span class="caret"></span></a>
           <ul class="dropdown-menu">
             @if (Auth::guest())
               <li class="{{ Request::is('login') ? "active" : null }}"><a href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
               <li class="{{ Request::is('register') ? "active" : null }}"><a href="{{ route('register') }}"><span class="glyphicon glyphicon-cloud-upload"></span> Register</a></li>
             @else
+              <li class="{{ Request::is('profile') ? "active" : null }}"><a href="{{ route('profile.index') }}"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
               <li class="divider"></li>
               <li><a href="{{ route('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             @endif

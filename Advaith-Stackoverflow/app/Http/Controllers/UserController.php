@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\User;
+use App\Question;
 
 class UserController extends Controller
 {
@@ -15,6 +16,7 @@ class UserController extends Controller
     }
     public function show($id) {
     	$user = User::find($id);
-    	return view('user.show')->withUser($user);
+    	$questions = Question::all()->where('user_email', '=', $user->email);
+    	return view('user.show')->withUser($user)->withQuestions($questions);
     }
 }

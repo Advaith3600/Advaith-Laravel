@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Question;
 use Session;
 use App\Tag;
+use Auth;
 
 class QuestionController extends Controller
 {
@@ -52,6 +53,7 @@ class QuestionController extends Controller
         $question = new Question;
         $question->title = $request->title;
         $question->question = $request->question;
+        $question->user_email = Auth::user()->email;
         $question->save();
         $question->tags()->sync($request->tags, false);
 
