@@ -88,22 +88,10 @@
     line-height: 30px;
     padding-left: 30px;
 }
-.btn-file {
-    position: relative;
-    overflow: hidden;
-}
-.btn-file input[type=file] {
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    font-size: 100px;
-    text-align: right;
-    filter: alpha(opacity=0);
-    opacity: 0;
-    outline: none;
-    background: white;
-    cursor: inherit;
-    display: block;
+.ad-user-info {
+	padding: 5px 6px 7px 7px;
+	width: 200px;
+	color: #6a737c;
+	background: #E0EAF1;
+	word-wrap: break-word;
 }

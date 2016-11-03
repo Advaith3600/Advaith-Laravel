@@ -21,6 +21,8 @@
 				<h4>Bio:</h4><hr>
 				@if ($user->bio == null)
 					<small>No bio was created</small>
+				@else
+					{{ $user->bio }}
 				@endif
 			</div>
 			<div class="ad-bd" style="margin-bottom: 20px;">
@@ -38,6 +40,65 @@
 						@endforeach
 					</ul>
 				@endif
+			</div>
+			<div class="ad-bd">
+				Joined on
+				<?php 
+					$time = strtotime($user->created_at);
+
+					echo created_at($time).' ago';
+
+					function created_at ($time){
+
+					    $time = time() - $time;
+					    $time = ($time<1)? 1 : $time;
+					    $tokens = array (
+					        31536000 => 'year',
+					        2592000 => 'month',
+					        604800 => 'week',
+					        86400 => 'day',
+					        3600 => 'hour',
+					        60 => 'minute',
+					        1 => 'second'
+					    );
+
+					    foreach ($tokens as $unit => $text) {
+					        if ($time < $unit) continue;
+					        $numberOfUnits = floor($time / $unit);
+					        return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
+					    }
+
+					}
+				?>
+				<hr>
+				Last seen 
+				<?php 
+					$time = strtotime($user->updated_at);
+
+					echo updated_at($time).' ago';
+
+					function updated_at ($time){
+
+					    $time = time() - $time;
+					    $time = ($time<1)? 1 : $time;
+					    $tokens = array (
+					        31536000 => 'year',
+					        2592000 => 'month',
+					        604800 => 'week',
+					        86400 => 'day',
+					        3600 => 'hour',
+					        60 => 'minute',
+					        1 => 'second'
+					    );
+
+					    foreach ($tokens as $unit => $text) {
+					        if ($time < $unit) continue;
+					        $numberOfUnits = floor($time / $unit);
+					        return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
+					    }
+
+					}
+				?>
 			</div>
 		</div>	
 	</div>

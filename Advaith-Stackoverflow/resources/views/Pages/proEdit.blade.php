@@ -35,7 +35,7 @@
 	      		<hr>
 	      		<h4>Public information</h4>
 	      		<div style="padding: 30px;">
-		      		{!! Form::open() !!}
+		      		{!! Form::open(['method' => 'PUT', 'route' => ['profile.details', Auth::user()->id]]) !!}
 
 						{{ Form::label('name', 'Display name') }}
 						{{ Form::text('name', Auth::user()->name, ['class' => 'form-control', 'placeholder' => 'name....', 'style' => 'margin-bottom: 20px;']) }}

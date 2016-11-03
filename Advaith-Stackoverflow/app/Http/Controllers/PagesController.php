@@ -40,4 +40,15 @@ class PagesController extends Controller
         Session::flash('success', 'Your profile picture was successfully updated');
         return redirect()->route('profile.index');
     }
+    public function profileEditDetails(Request $request, $id) {
+        $this->validate($request, ['name' => 'required']);
+        $user = User::find($id);
+
+        $user->name = $request->name;
+        $user->bio = $request->bio;
+        $user->save();
+
+        Session::flash('success', 'Your profile was successfully updated');
+        return redirect()->route('profile.index');
+    }
 }

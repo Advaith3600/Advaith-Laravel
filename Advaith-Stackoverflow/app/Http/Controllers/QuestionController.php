@@ -9,6 +9,7 @@ use App\Question;
 use Session;
 use App\Tag;
 use Auth;
+use App\User;
 
 class QuestionController extends Controller
 {
@@ -70,7 +71,8 @@ class QuestionController extends Controller
     public function show($id)
     {
         $question = Question::find($id);
-        return view('questions.show')->withQuestion($question);
+        $users = User::all()->where('email', '=', $question->user_email);
+        return view('questions.show')->withQuestion($question)->withUsers($users);
     }
 
     /**
