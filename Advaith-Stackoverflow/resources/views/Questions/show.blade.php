@@ -9,7 +9,7 @@
 			<h2>{{ $question->title }}</h2>
 			<hr>
 			<div>
-				{{ $question->question }}
+				{!! $question->question !!}
 			</div>
 			<hr>
 			<div>

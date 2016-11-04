@@ -22,7 +22,7 @@
 				@if ($user->bio == null)
 					<small>No bio was created</small>
 				@else
-					{{ $user->bio }}
+					{!! $user->bio !!}
 				@endif
 			</div>
 			<div class="ad-bd" style="margin-bottom: 20px;">
@@ -71,7 +71,7 @@
 					}
 				?>
 				<hr>
-				Last seen 
+				Last profile edited 
 				<?php 
 					$time = strtotime($user->updated_at);
 

@@ -3,6 +3,7 @@
 @section('title', '| Create a new Questions')
 
 @section('head')
+	<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 	<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
 	<style>
 		form > select + span {
@@ -48,5 +49,19 @@
 	<script src="{{ asset('js/select2.min.js') }}"></script>
 	<script>
 		$('.select2-ad').select2();
+		CKEDITOR.replace( 'question', {
+			toolbar : [
+				{ name: 'document', items : [ 'NewPage','Preview' ] },
+				{ name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+				{ name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','Scayt' ] },
+				{ name: 'insert', items : [ 'Image','HorizontalRule','Smiley','SpecialChar'] },
+		                '/',
+				{ name: 'styles', items : [ 'Styles','Format', 'Source' ] },
+				{ name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike' ] },
+				{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote' ] },
+				{ name: 'links', items : [ 'Link','Unlink','Anchor' ] },
+				{ name: 'tools', items : [ 'Maximize' ] }
+			]
+		});
 	</script>
 @endsection

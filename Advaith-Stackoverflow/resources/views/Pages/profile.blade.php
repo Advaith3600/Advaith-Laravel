@@ -28,7 +28,7 @@
 				@if (Auth::user()->bio == null)
 					<small>No bio was created</small>
 				@else
-					{{ Auth::user()->bio }}
+					{!! Auth::user()->bio !!}
 				@endif
 			</div>
 			<div class="ad-bd" style="margin-bottom: 20px;">
@@ -77,7 +77,7 @@
 					}
 				?>
 				<hr>
-				Last seen 
+				Last profile edited 
 				<?php 
 					$time = strtotime(Auth::user()->updated_at);
 
