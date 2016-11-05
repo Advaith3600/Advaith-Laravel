@@ -57,7 +57,7 @@
 				{ name: 'insert', items : [ 'Image','HorizontalRule','Smiley','SpecialChar'] },
 		                '/',
 				{ name: 'styles', items : [ 'Styles','Format', 'Source' ] },
-				{ name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike' ] },
+				{ name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
 				{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote' ] },
 				{ name: 'links', items : [ 'Link','Unlink','Anchor' ] },
 				{ name: 'tools', items : [ 'Maximize' ] }

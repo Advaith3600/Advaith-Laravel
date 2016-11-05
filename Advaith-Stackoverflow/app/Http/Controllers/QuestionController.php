@@ -9,6 +9,7 @@ use App\Question;
 use Session;
 use App\Tag;
 use Auth;
+use App\Answer;
 use App\User;
 
 class QuestionController extends Controller
@@ -72,7 +73,8 @@ class QuestionController extends Controller
     {
         $question = Question::find($id);
         $users = User::all()->where('email', '=', $question->user_email);
-        return view('questions.show')->withQuestion($question)->withUsers($users);
+        $answers = Answer::all()->where('question_id', '=', $question->id);
+        return view('questions.show')->withQuestion($question)->withUsers($users)->withAnswers($answers);
     }
 
     /**
@@ -134,6 +136,7 @@ class QuestionController extends Controller
 
     public function delete($id) {
         $question = Question::find($id);
-        return view('questions.delete')->withQuestion($question);
+        $users = User::all()->where('email', '=', $question->user_email);
+        return view('questions.delete')->withQuestion($question)->withUsers($users);
     }
 }

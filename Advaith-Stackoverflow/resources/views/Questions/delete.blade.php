@@ -12,10 +12,17 @@
 			<h3>
 				{{ $question->title }}
 				<hr>
-				{{ $question->question }}
+				<div class="text-left">{!! $question->question !!}</div>
 			</h3>
 			{!! Form::open(['method' => 'DELETE', 'route' => ['questions.destroy', $question->id]]) !!}
-				{{ Form::submit('Delete', ['class' => 'btn-block btn btn-danger']) }}
+				@if (Auth::guest())
+				@else
+					@foreach ($users as $user)
+						@if (Auth::user()->email == $user->email)
+							{{ Form::submit('Delete', ['class' => 'btn-block btn btn-danger']) }}
+						@endif
+					@endforeach
+				@endif
 			{!! Form::close() !!}
 		</div>
 	</div>

@@ -13,6 +13,7 @@
 
 Route::get('/', ['uses' => 'PagesController@getHome', 'as' => 'home']);
 Route::get('/home', 'PagesController@goHome');
+// Profile
 Route::get('/profile', ['uses' => 'PagesController@profile', 'as' => 'profile.index'])->middleware('auth');
 Route::get('/profile/edit', ['uses' => 'PagesController@profileEdit', 'as' => 'profile.edit'])->middleware('auth');
 Route::put('/profile/edit/image/{id}', ['uses' => 'PagesController@profileEditImg', 'as' => 'profile.image'])->middleware('auth');
@@ -37,3 +38,9 @@ Route::get('/users', ['uses' => 'UserController@index', 'as' => 'users.index']);
 Route::get('/users/{id}', ['uses' => 'UserController@show', 'as' => 'users.show']);
 // Tags
 Route::resource('/tags', 'TagController', ['except' => 'create']);
+// Answers
+Route::post('answer/{question_id}', ['uses' => 'AnswerController@store', 'as' => 'answers.store'])->middleware('auth');
+Route::get('answer/{id}/edit', ['uses' => 'AnswerController@edit', 'as' => 'answers.edit'])->middleware('auth');
+Route::put('answer/{id}/edit', ['uses' => 'AnswerController@update', 'as' => 'answers.update'])->middleware('auth');
+Route::get('answer/delete/{id}', ['uses' => 'AnswerController@delete', 'as' => 'answers.delete'])->middleware('auth');
+Route::delete('answer/delete/{id}', ['uses' => 'AnswerController@destroy', 'as' => 'answers.destroy'])->middleware('auth');

@@ -2,6 +2,12 @@
 
 @section('title', "| $question->title")
 
+@section('head')
+
+	<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+
+@endsection
+
 @section('content')
 
 	<div class="row">
@@ -71,10 +77,55 @@
 					</div>
 				</div>
 			</div>
+			<hr style="margin-top: 100px;">
+			<div>
+				@foreach ($answers as $answer)
+					<div>
+						{!! $answer->answer !!}
+						<div>
+							<small><a href="{{ route('answers.edit', $answer->id) }}">Edit</a></small>
+							@if (!Auth::guest())
+								@if (Auth::user()->email == $answer->user_email)
+									<small><a href="{{ route('answers.delete', $answer->id) }}">Delete</a></small>
+								@endif
+							@endif
+						</div>
+					</div><hr>
+				@endforeach
+			</div>
+			<div>
+				<h3>Your Answer</h3>
+				{!! Form::open(['route' => ['answers.store', $question->id]]) !!}
+					{{ Form::textarea('answer', null, ['class' => 'form-control']) }}
+					{{ Form::submit('Post your answer', ['class' => 'btn btn-primary', 'style' => 'margin-top: 10px;']) }}
+				{!! Form::close() !!}
+			</div>
 		</div>
 		<div class="col-md-4">
 			
 		</div>
 	</div>
+
+@endsection
+
+@section('js')
+
+	<script src="{{ asset('js/select2.min.js') }}"></script>
+	<script>
+		CKEDITOR.replace( 'answer', {
+			toolbar : [
+				{ name: 'document', items : [ 'NewPage','Preview' ] },
+				{ name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+				{ name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','Scayt' ] },
+				{ name: 'insert', items : [ 'Image','HorizontalRule','Smiley','SpecialChar'] },
+		                '/',
+				{ name: 'styles', items : [ 'Styles','Format', 'Source' ] },
+				{ name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
+				{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote' ] },
+				{ name: 'links', items : [ 'Link','Unlink','Anchor' ] },
+				{ name: 'tools', items : [ 'Maximize' ] }
+			]
+		});
+	</script>
 
 @endsection
