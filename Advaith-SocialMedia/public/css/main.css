@@ -1,0 +1,17 @@
+ul.nav.navbar-nav.navbar-right > li:hover > a, ul.nav.navbar-nav.navbar-right > li:focus > a {
+	color: #555!Important;
+	text-shadow: 0 1px 1px #eee;
+}
+ul.nav.navbar-nav.navbar-right > li.advaith {
+	text-shadow: 0 1px 1px #eee;
+	background-color: #222!Important;
+}
+.bgimg-1 {
+	background-image: url('../images/sky.jpg');
+	opacity: 0.7;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+	min-height: 94vh;
+}

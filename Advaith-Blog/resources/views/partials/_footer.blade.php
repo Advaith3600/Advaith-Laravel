@@ -1,2 +1,2 @@
 <hr>
-<p class="text-center">Copyright &copy; Advaith A J - All rights reserved</p>
+<p class="text-center">Copyright &copy; <a href="http://advaitharunjeena.wixsite.com/advaith">Advaith A J</a> - All rights reserved</p>
