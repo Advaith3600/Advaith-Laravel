@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Input;
 
 class RegisterController extends Controller
 {
@@ -62,10 +63,13 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $user = new User();
+        $user->name = Input::get('name');
+        $user->email = Input::get('email');
+        $user->password = bcrypt(Input::get('password'));
+        $user->pro_pic = "https://www.gravatar.com/avatar/" . md5(strtolower(trim(Input::get('email')))) . "?d=identicon";
+        
+        $user->save();
+        return $user;
     }
 }

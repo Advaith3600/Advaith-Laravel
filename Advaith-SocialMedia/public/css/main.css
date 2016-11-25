@@ -15,3 +15,50 @@ ul.nav.navbar-nav.navbar-right > li.advaith {
     background-size: cover;
 	min-height: 94vh;
 }
+.bgimg-2 {
+	background-image: url('../images/register.jpg');
+	opacity: 0.7;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+	min-height: 400px;
+}
+ul.ad-navbar {
+	font-size: 25px;
+}
+ul.ad-navbar > li > a {
+	color: #fff!Important;
+}
+ul.ad-navbar > li:hover > a, ul.ad-navbar > li > a.active {
+	color: #000!Important;
+	background-color: #ddd;
+}
+.slideanim {visibility:hidden;}
+.slide {
+    animation-name: slide;
+    -webkit-animation-name: slide;
+    animation-duration: 1s;
+    -webkit-animation-duration: 1s;
+    visibility: visible;
+}
+@keyframes slide {
+    0% {
+	    opacity: 0;
+	    transform: translateY(70%);
+} 
+    100% {
+      	opacity: 1;
+      	transform: translateY(0%);
+    }
+}
+@-webkit-keyframes slide {
+    0% {
+      	opacity: 0;
+      	-webkit-transform: translateY(70%);
+    } 
+    100% {
+      	opacity: 1;
+      	-webkit-transform: translateY(0%);
+    }
+}
