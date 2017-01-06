@@ -21,8 +21,7 @@ class PagesController extends Controller
     	return redirect()->route('home');
     }
     public function profile() {
-        $questions = Question::all()->where('user_email', '=', Auth::user()->email);
-    	return view('pages.profile')->withQuestions($questions);
+    	return view('pages.profile');
     }
     public function profileEdit() {
         return view('pages.proEdit');

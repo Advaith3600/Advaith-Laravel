@@ -32,19 +32,19 @@
 				@endif
 			</div>
 			<div class="ad-bd" style="margin-bottom: 20px;">
-				{{ count($questions) }} Questions asked
-				@if (count($questions) > 0)
-					<hr>
-					<ul>
-						@foreach ($questions as $question)
+				{{ Auth::user()->questions()->count() }} Questions asked
+				@if (Auth::user()->questions()->count() > 0)
+					@foreach (Auth::user()->questions as $question)
+						<hr>
+						<ul>
 							<li class="ad-q">
 								<a href="{{ route('questions.show', $question->id) }}">{{ $question->title }}</a><br>
 								@foreach ($question->tags as $tag)
-									<a href="" class="ad-btn-label">{{ $tag->name }}</a>
+									<a href="{{ route('tags.show', $tag) }}" class="ad-btn-label">{{ $tag->name }}</a>
 								@endforeach
 							</li><hr>
-						@endforeach
-					</ul>
+						</ul>
+					@endforeach
 				@endif
 			</div>
 			<div class="ad-bd">

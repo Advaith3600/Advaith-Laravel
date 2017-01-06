@@ -28,9 +28,11 @@
 						</div>
 					@endforeach
 				</div>
-				<div class="panel-footer ad-links">
-					{!! $questions->links() !!}
-				</div>
+				@if (count($questions) > 10)
+					<div class="panel-footer ad-links">
+						{!! $questions->links() !!}
+					</div>
+				@endif
 			</div>
 		</div>
 	<div class="col-md-4">

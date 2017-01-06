@@ -9,8 +9,8 @@ use App\Question;
 use Session;
 use App\Tag;
 use Auth;
-use App\Answer;
 use App\User;
+use App\Answer;
 
 class QuestionController extends Controller
 {
@@ -55,9 +55,12 @@ class QuestionController extends Controller
         $question = new Question;
         $question->title = $request->title;
         $question->question = $request->question;
-        $question->user_email = Auth::user()->email;
+        $question->user_id = Auth::user()->id;
         $question->save();
         $question->tags()->sync($request->tags, false);
+        $user = User::find(Auth::user()->id);
+        $user->reputation = Auth::user()->reputation + 5;
+        $user->save();
 
         Session::flash('success', 'Your question was successfully created');
         return redirect()->route('questions.show', $question->id);
@@ -72,9 +75,8 @@ class QuestionController extends Controller
     public function show($id)
     {
         $question = Question::find($id);
-        $users = User::all()->where('email', '=', $question->user_email);
         $answers = Answer::all()->where('question_id', '=', $question->id);
-        return view('questions.show')->withQuestion($question)->withUsers($users)->withAnswers($answers);
+        return view('questions.show')->withQuestion($question)->withAnswers($answers);
     }
 
     /**
@@ -136,7 +138,6 @@ class QuestionController extends Controller
 
     public function delete($id) {
         $question = Question::find($id);
-        $users = User::all()->where('email', '=', $question->user_email);
-        return view('questions.delete')->withQuestion($question)->withUsers($users);
+        return view('questions.delete')->withQuestion($question);
     }
 }

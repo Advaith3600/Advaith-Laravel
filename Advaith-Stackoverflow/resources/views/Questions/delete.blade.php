@@ -15,13 +15,10 @@
 				<div class="text-left">{!! $question->question !!}</div>
 			</h3>
 			{!! Form::open(['method' => 'DELETE', 'route' => ['questions.destroy', $question->id]]) !!}
-				@if (Auth::guest())
-				@else
-					@foreach ($users as $user)
-						@if (Auth::user()->email == $user->email)
-							{{ Form::submit('Delete', ['class' => 'btn-block btn btn-danger']) }}
-						@endif
-					@endforeach
+				@if (Auth::check())
+					@if (Auth::user()->email == $question->user->email)
+						{{ Form::submit('Delete', ['class' => 'btn-block btn btn-danger']) }}
+					@endif
 				@endif
 			{!! Form::close() !!}
 		</div>

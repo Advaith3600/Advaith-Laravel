@@ -30,11 +30,9 @@
 						<a href="{{ route('questions.edit', $question->id) }}" style="margin-right: 10px;">Edit</a>
 						@if (Auth::guest())
 						@else
-							@foreach ($users as $user)
-								@if (Auth::user()->email == $user->email)
-									<a href="{{ route('questions.delete', $question->id) }}">Delete</a>
-								@endif
-							@endforeach
+							@if (Auth::user()->email == $question->user->email)
+								<a href="{{ route('questions.delete', $question->id) }}">Delete</a>
+							@endif
 						@endif
 					</small>
 					<div style="float: right;" class="ad-user-info">
@@ -68,12 +66,13 @@
 								}
 							?>
 						</small><br>
-						@foreach ($users as $user)
-							<a href="{{ route('users.show', $user->id) }}">
-								<img src="{{ $user->pro_pic }}" alt="profile picture" width="50" height="50">
-								{{ $user->name }}
-							</a>
-						@endforeach
+						<a href="{{ route('users.show', $question->user->id) }}">
+							<img src="{{ $question->user->pro_pic }}" alt="profile picture" width="50" height="50">
+							<div style="display: inline-block; vertical-align: middle;">
+								<div>{{ $question->user->reputation }}</div>
+								{{ $question->user->name }}
+							</div>
+						</a>
 					</div>
 				</div>
 			</div>
