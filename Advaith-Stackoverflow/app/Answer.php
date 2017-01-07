@@ -12,4 +12,7 @@ class Answer extends Model
     public function user() {
         return $this->belongsTo('App\User');
     }
+	public function avotes() {
+		return $this->hasMany('App\Avote');
+	}
 }

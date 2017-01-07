@@ -15,4 +15,7 @@ class Question extends Model
     public function answers() {
         return $this->hasMany('App\Answer');
     }
+    public function qvotes() {
+        return $this->hasMany('App\Qvote');
+    }
 }

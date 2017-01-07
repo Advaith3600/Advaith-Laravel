@@ -9,7 +9,6 @@ use App\Question;
 use Session;
 use App\Tag;
 use Auth;
-use App\User;
 use App\Answer;
 
 class QuestionController extends Controller
@@ -58,9 +57,6 @@ class QuestionController extends Controller
         $question->user_id = Auth::user()->id;
         $question->save();
         $question->tags()->sync($request->tags, false);
-        $user = User::find(Auth::user()->id);
-        $user->reputation = Auth::user()->reputation + 5;
-        $user->save();
 
         Session::flash('success', 'Your question was successfully created');
         return redirect()->route('questions.show', $question->id);
