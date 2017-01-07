@@ -75,8 +75,7 @@ class QuestionController extends Controller
     public function show($id)
     {
         $question = Question::find($id);
-        $answers = Answer::all()->where('question_id', '=', $question->id);
-        return view('questions.show')->withQuestion($question)->withAnswers($answers);
+        return view('questions.show')->withQuestion($question);
     }
 
     /**

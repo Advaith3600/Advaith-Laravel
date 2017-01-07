@@ -37,8 +37,8 @@
 					</small>
 					<div style="float: right;" class="ad-user-info">
 						<small>
-							asked 
-							<?php 
+							asked
+							<?php
 								$time = strtotime($question->created_at);
 
 								echo created_at($time).' ago';
@@ -78,18 +78,58 @@
 			</div>
 			<hr style="margin-top: 100px;">
 			<div>
-				@foreach ($answers as $answer)
+				<h1>{{ $question->answers()->count() }} {{ $question->answers()->count() > 1 ? 'answers' : 'answer' }}</h1> <hr>
+				@foreach ($question->answers as $answer)
 					<div>
 						{!! $answer->answer !!}
+						<div style="float: right;" class="ad-user-info">
+							<small><?php
+								$full = false;
+								$now = new DateTime;
+								$ago = new DateTime($answer->created_at);
+								$diff = $now->diff($ago);
+
+								$diff->w = floor($diff->d / 7);
+								$diff->d -= $diff->w * 7;
+
+								$string = array(
+									'y' => 'year',
+									'm' => 'month',
+									'w' => 'week',
+									'd' => 'day',
+									'h' => 'hour',
+									'i' => 'minute',
+									's' => 'second',
+								);
+								foreach ($string as $k => &$v) {
+									if ($diff->$k) {
+										$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+									} else {
+										unset($string[$k]);
+									}
+								}
+
+								if (!$full) $string = array_slice($string, 0, 1);
+								echo $string ? implode(', ', $string) . ' ago' : 'just now';
+							?></small>
+							<br>
+							<a href="{{ route('users.show', $answer->user->id) }}">
+								<img src="{{ $answer->user->pro_pic }}" alt="profile picture" width="50" height="50">
+								<div style="display: inline-block; vertical-align: middle;">
+									<div>{{ $answer->user->reputation }}</div>
+									{{ $answer->user->name }}
+								</div>
+							</a>
+						</div>
 						<div>
 							<small><a href="{{ route('answers.edit', $answer->id) }}">Edit</a></small>
 							@if (!Auth::guest())
-								@if (Auth::user()->email == $answer->user_email)
+								@if (Auth::user()->id == $answer->user_id)
 									<small><a href="{{ route('answers.delete', $answer->id) }}">Delete</a></small>
 								@endif
 							@endif
 						</div>
-					</div><hr>
+					</div><hr style="margin-top: 100px;">
 				@endforeach
 			</div>
 			<div>
@@ -101,7 +141,7 @@
 			</div>
 		</div>
 		<div class="col-md-4">
-			
+
 		</div>
 	</div>
 

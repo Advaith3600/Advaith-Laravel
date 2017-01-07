@@ -16,7 +16,6 @@ class UserController extends Controller
     }
     public function show($id) {
     	$user = User::find($id);
-    	$questions = Question::all()->where('user_email', '=', $user->email);
-    	return view('user.show')->withUser($user)->withQuestions($questions);
+    	return view('user.show')->withUser($user);
     }
 }

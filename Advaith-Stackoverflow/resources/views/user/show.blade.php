@@ -9,8 +9,9 @@
 			<div class="ad-img-holder">
 				<div class="ad-img-container">
 					<a href="" style="text-decoration: none;">
-						<img src="{{ $user->pro_pic }}" alt="profile picture" width="200" height="200">
+						<img src="{{ $user->pro_pic }}" alt="profile picture" id="image">
 						<h3 style="margin-bottom: 0;">{{ $user->name }}</h3>
+						<h4 style="margin-bottom: 0;">{{ $user->reputation }}</h4>
 					</a>
 				</div>
 			</div>
@@ -26,24 +27,45 @@
 				@endif
 			</div>
 			<div class="ad-bd" style="margin-bottom: 20px;">
-				{{ count($questions) }} Questions asked
-				@if (count($questions) > 0)
-					<hr>
-					<ul>
-						@foreach ($questions as $question)
-							<li class="ad-q">
-								<a href="{{ route('questions.show', $question->id) }}">{{ $question->title }}</a><br>
-								@foreach ($question->tags as $tag)
-									<a href="" class="ad-btn-label">{{ $tag->name }}</a>
-								@endforeach
-							</li><hr>
-						@endforeach
-					</ul>
-				@endif
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Questions</a></li>
+					<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Answers</a></li>
+				</ul>
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active" id="home" style="padding-top: 20px;">
+						{{ $user->questions()->count() }} Questions asked
+						@if ($user->questions()->count() > 0)
+							@foreach ($user->questions as $question)
+								<hr>
+								<ul>
+									<li class="ad-q">
+										<a href="{{ route('questions.show', $question->id) }}">{{ $question->title }}</a><br>
+										@foreach ($question->tags as $tag)
+											<a href="{{ route('tags.show', $tag) }}" class="ad-btn-label">{{ $tag->name }}</a>
+										@endforeach
+									</li>
+								</ul>
+							@endforeach
+						@endif
+					</div>
+					<div role="tabpanel" class="tab-pane" id="profile" style="padding-top: 20px;">
+						{{ $user->answers()->count() }} {{ $user->answers()->count() > 1 ? 'answers' : 'answer' }}
+						@if ($user->answers()->count() > 0)
+							@foreach ($user->answers as $answer)
+								<hr>
+								<ul>
+									<li>
+										<a href="">{{ $answer->question->title }}</a>
+									</li>
+								</ul>
+							@endforeach
+						@endif
+					</div>
+				</div>
 			</div>
 			<div class="ad-bd">
 				Joined on
-				<?php 
+				<?php
 					$time = strtotime($user->created_at);
 
 					echo created_at($time).' ago';
@@ -71,8 +93,8 @@
 					}
 				?>
 				<hr>
-				Last profile edited 
-				<?php 
+				Last profile edited
+				<?php
 					$time = strtotime($user->updated_at);
 
 					echo updated_at($time).' ago';
@@ -100,7 +122,22 @@
 					}
 				?>
 			</div>
-		</div>	
+		</div>
 	</div>
+
+@endsection
+
+@section('js')
+
+	<script>
+		var img = $('#image');
+		if (img.attr('src').startsWith('https://www.gravatar.com/avatar/') || img.attr('src').startsWith('http://www.gravatar.com/avatar/')) {
+			img.attr('src', img.attr('src') + '&s=200');
+		}
+		else {
+			img.attr('width', 200);
+			img.attr('height', 200);
+		}
+	</script>
 
 @endsection

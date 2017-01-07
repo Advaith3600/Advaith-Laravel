@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Answer;
 use App\Question;
+use App\User;
 use Auth;
 use Session;
 
@@ -23,10 +24,13 @@ class AnswerController extends Controller
         $question = Question::find($question_id);
         $answer = new Answer;
         $answer->answer = $request->answer;
-        $answer->user_email = Auth::user()->email;
+        $answer->user_id = Auth::user()->id;
         $answer->question_id = $question_id;
+        $user = User::find(Auth::user()->id);
+        $user->reputation = Auth::user()->reputation + 10;
 
         $answer->save();
+        $user->save();
         Session::flash('success', 'Answer was successfully posted');
         return redirect()->route('questions.show', [$question->id]);
     }
@@ -38,7 +42,7 @@ class AnswerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {  
+    {
         $answer = Answer::find($id);
         return view('answers.edit')->withAnswer($answer);
     }

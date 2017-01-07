@@ -5,7 +5,7 @@
 @section('title', "| $name - Edit")
 
 @section('head')
-	
+
 	<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 	<link href="{{ asset('css/navbar-fixed-side.css') }}" rel="stylesheet" />
 
@@ -20,11 +20,11 @@
 	<div class="container-fluid" style="margin-top: 20px;">
 	  	<div class="row">
 	    	<div class="col-sm-3 col-lg-2">
-	      		<nav class="navbar navbar-fixed-side container">
-	        		<img src="{{ Auth::user()->pro_pic }}" alt="" width="100%" style="border-radius: 4px; min-height: 200px; max-height: 400px">
+	      		<nav class="navbar navbar-fixed-side container text-center">
+	        		<img src="{{ Auth::user()->pro_pic }}" id="image" style="border-radius: 4px;">
 	        		<div>
 	        			{!! Form::open(['method' => 'PUT', 'route' => ['profile.image', Auth::user()->id], 'files' => true]) !!}
-	        				{{ csrf_field() }}	
+	        				{{ csrf_field() }}
 							<input type="file" class="btn btn-block btn-primary" style="margin-top: 10px;" name="pro_pic">
 							{{ Form::submit('Change Image', ['class' => 'btn btn-success btn-block']) }}
 						{!! Form::close() !!}
@@ -71,6 +71,14 @@
 				{ name: 'tools', items : [ 'Maximize' ] }
 			]
 		});
+		var img = $('#image');
+		if (img.attr('src').startsWith('https://www.gravatar.com/avatar/') || img.attr('src').startsWith('http://www.gravatar.com/avatar/')) {
+			img.attr('src', img.attr('src') + '&s=180');
+		}
+		else {
+			img.attr('width', '100%');
+			img.attr('height', 200);
+		}
 	</script>
 
 @endsection
