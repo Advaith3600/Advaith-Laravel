@@ -14,7 +14,7 @@ use App\Answer;
 class QuestionController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth', ['except' => ['index', 'show']]);
+        $this->middleware('auth', ['except' => ['index', 'show', 'slug']]);
     }
     /**
      * Display a listing of the resource.
@@ -47,14 +47,16 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-                'title'   => 'required|max:255',
+                'title'   => 'required|max:255|unique:questions,title',
                 'question'=> 'required|min:10',
-                'tags'    => 'required'
+                'tags'    => 'required',
+                'slug'    => 'alpha_dash'
             ]);
         $question = new Question;
         $question->title = $request->title;
         $question->question = $request->question;
         $question->user_id = Auth::user()->id;
+        $question->slug = $request->slug;
         $question->save();
         $question->tags()->sync($request->tags, false);
 
@@ -71,6 +73,13 @@ class QuestionController extends Controller
     public function show($id)
     {
         $question = Question::find($id);
+        return redirect()->route('questions.slug', [$id, $question->slug]);
+    }
+    public function slug($id, $slug) {
+        $question = Question::find($id);
+        if ($slug != $question->slug) {
+            return redirect()->route('questions.slug', [$id, $question->slug]);
+        }
         return view('questions.show')->withQuestion($question);
     }
 
@@ -101,9 +110,10 @@ class QuestionController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-                'title'   => 'required|max:255',
+                'title'   => "required|max:255|unique:questions,title,$id",
                 'question'=> 'required|min:10',
-                'tags'    => 'required'
+                'tags'    => 'required',
+                'slug'    => 'alpha_dash'
             ]);
         $question = Question::find($id);
         $question->title = $request->title;

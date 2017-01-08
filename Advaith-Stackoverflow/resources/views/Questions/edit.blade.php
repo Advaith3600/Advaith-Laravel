@@ -33,9 +33,11 @@
 			{{ Form::submit('Save Changes', ['class' => 'btn btn-success']) }}
 			{!! Html::linkRoute('questions.show', 'Cancel', array($question->id), array('class' => 'btn btn-danger')) !!}
 
+			{{ Form::hidden('slug', null, ['id' => 'slug']) }}
+
 		{!! Form::close() !!}
 	</div>
-	
+
 @endsection
 
 @section('js')
@@ -56,6 +58,16 @@
 				{ name: 'links', items : [ 'Link','Unlink','Anchor' ] },
 				{ name: 'tools', items : [ 'Maximize' ] }
 			]
+		});
+		$('form').submit(function() {
+			var str = $('#title').val().replace(/[^a-zA-Z ]/g, "");
+			$('#title').val(str);
+			$('#slug').val(getWords(str));
+			function getWords(str) {
+				str = str.split(/\s+/).slice(0,5).join(" ");
+				str = str.replace(/\s+/g, '-').toLowerCase();
+				return str;
+			}
 		});
 	</script>
 @endsection

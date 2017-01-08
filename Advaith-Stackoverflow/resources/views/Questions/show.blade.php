@@ -25,17 +25,18 @@
 			<div style="display: block;">
 				<div style="width: 10%; display: inline-block; float: left; padding: 5px;" class="text-center" id="qvote">
 					<?php
-						if ($question->qvotes()->count() > 0) {
+						if (Auth::check() && Auth::user()->email == $question->user->email) {
+							echo '<span class="glyphicon glyphicon-chevron-up" style="font-size: 50px; color: #bbb;"></span>';
+						}
+						else if ($question->qvotes()->count() > 0) {
 							foreach ($question->qvotes as $qvote) {
-								if (Auth::check()) {
-									if (Auth::user()->email == $qvote->user->email) {
-										echo '<span class="glyphicon glyphicon-chevron-up" style="font-size: 50px; color: orange;"></span>';
-										break;
-									}
-									else {
-										echo '<a href="#" style="color: #bbb;"><span class="glyphicon glyphicon-chevron-up" style="font-size: 50px;"></span></a>';
-										break;
-									}
+								if (Auth::check() && Auth::user()->email == $qvote->user->email) {
+									echo '<span class="glyphicon glyphicon-chevron-up" style="font-size: 50px; color: orange;"></span>';
+									break;
+								}
+								else {
+									echo '<a href="#" style="color: #bbb;"><span class="glyphicon glyphicon-chevron-up" style="font-size: 50px;"></span></a>';
+									break;
 								}
 							}
 						}

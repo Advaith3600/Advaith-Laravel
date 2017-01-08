@@ -39,14 +39,16 @@
 				    	<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Answers</a></li>
 				  	</ul>
 				  	<div class="tab-content">
-				    	<div role="tabpanel" class="tab-pane active" id="home" style="padding-top: 20px;">
+				    	<div role="tabpanel" class="tab-pane fade in active" id="home" style="padding-top: 20px;">
 							{{ Auth::user()->questions()->count() }} Questions asked
 							@if (Auth::user()->questions()->count() > 0)
 								@foreach (Auth::user()->questions as $question)
 									<hr>
 									<ul>
 										<li class="ad-q">
-											<a href="{{ route('questions.show', $question->id) }}">{{ $question->title }}</a><br>
+											<a href="{{ route('questions.show', $question->id) }}">{{ $question->title }}</a>
+											&nbsp; <span class="badge" style="background-color: #5fba7d; border-radius: 4px; width: 30px;">{{ $question->qvotes()->count() }}</span>
+											<br>
 											@foreach ($question->tags as $tag)
 												<a href="{{ route('tags.show', $tag) }}" class="ad-btn-label">{{ $tag->name }}</a>
 											@endforeach
@@ -55,7 +57,7 @@
 								@endforeach
 							@endif
 				    	</div>
-				    	<div role="tabpanel" class="tab-pane" id="profile" style="padding-top: 20px;">
+				    	<div role="tabpanel" class="tab-pane fade" id="profile" style="padding-top: 20px;">
 							{{ Auth::user()->answers()->count() }} {{ Auth::user()->answers()->count() > 1 ? 'answers' : 'answer' }}
 							@if (Auth::user()->answers()->count() > 0)
 								@foreach (Auth::user()->answers as $answer)

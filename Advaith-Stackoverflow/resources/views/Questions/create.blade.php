@@ -35,11 +35,13 @@
 					@endforeach
 				</select>
 
+				{{ Form::hidden('slug', null, ['id' => 'slug']) }}
+
 				{{ Form::submit('Post your Question', ['class' => 'btn btn-primary']) }}
 			{!! Form::close() !!}
 		</div>
 		<div class="col-md-4">
-			
+
 		</div>
 	</div>
 
@@ -62,6 +64,16 @@
 				{ name: 'links', items : [ 'Link','Unlink','Anchor' ] },
 				{ name: 'tools', items : [ 'Maximize' ] }
 			]
+		});
+		$('form').submit(function() {
+			var str = $('#title').val().replace(/[^a-zA-Z ]/g, "");
+			$('#title').val(str);
+			$('#slug').val(getWords(str));
+			function getWords(str) {
+				str = str.split(/\s+/).slice(0,5).join(" ");
+				str = str.replace(/\s+/g, '-').toLowerCase();
+				return str;
+			}
 		});
 	</script>
 @endsection

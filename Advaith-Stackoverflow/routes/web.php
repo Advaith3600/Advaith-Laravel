@@ -33,6 +33,7 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 // Question
 Route::resource('/questions', 'QuestionController');
 Route::get('/questions/delete/{id}', ['uses' => 'QuestionController@delete', 'as' => 'questions.delete']);
+Route::get('/questions/{id}/{slug}', ['uses' => 'QuestionController@slug', 'as' => 'questions.slug']);
 // User
 Route::get('/users', ['uses' => 'UserController@index', 'as' => 'users.index']);
 Route::get('/users/{id}', ['uses' => 'UserController@show', 'as' => 'users.show']);
