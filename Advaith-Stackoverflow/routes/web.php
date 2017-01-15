@@ -47,3 +47,4 @@ Route::get('answer/delete/{id}', ['uses' => 'AnswerController@delete', 'as' => '
 Route::delete('answer/delete/{id}', ['uses' => 'AnswerController@destroy', 'as' => 'answers.destroy'])->middleware('auth');
 // Votes
 Route::post('qvote', 'voteController@qvote')->middleware('auth');
+Route::post('avote', 'voteController@avote')->middleware('auth');

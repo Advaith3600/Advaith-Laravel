@@ -57,7 +57,8 @@
 								<hr>
 								<ul>
 									<li>
-										<a href="">{{ $answer->question->title }}</a>
+										<a href="{{ route('questions.show', $answer->question->id) }}">{{ $answer->question->title }}</a>
+										&nbsp; <span class="badge" style="background-color: #5fba7d; border-radius: 4px; width: 30px;">{{ $answer->avotes()->count() }}</span>
 									</li>
 								</ul>
 							@endforeach

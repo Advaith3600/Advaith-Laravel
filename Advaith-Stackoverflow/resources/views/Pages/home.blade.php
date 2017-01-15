@@ -25,6 +25,11 @@
 							<div class="panel-body">
 								{{ substr(strip_tags($question->question), 0, 150) }}{{ strlen(strip_tags($question->question)) > 150 ? "....." : "" }}
 							</div>
+							<div class="panel-footer">
+								<div class="text-right">
+									By: {{ $question->user->name }}
+								</div>
+							</div>
 						</div>
 					@endforeach
 				</div>

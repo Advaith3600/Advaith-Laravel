@@ -9,12 +9,21 @@
 @endsection
 
 @section('content')
-	<div style="z-index: 9; position: fixed; top: 0; left: 0; background: rgba(0, 0, 0, 0.8);; height: 100vh; width: 100vw; display: none;" id="error">
-		<div style="position: fixed; top: 20%; left: 20%; width: 60%; height: 60%; z-index: 10; background-color: #ccc; box-shadow: 0 0 5px 5px grey; padding: 20px;">
-			<span class="close" style="font-size: 30px;" onclick="$('#error').hide('fast')">&times;</span>
-			<div style="font-size: 36px;" id="e-heading"></div>
-			<div style="font-size: 25px; margin-top: 10px;" id="e-body"></div>
-		</div>
+	<div class="modal fade" tabindex="-1" role="dialog" id="error">
+	  	<div class="modal-dialog" role="document">
+	    	<div class="modal-content">
+		      	<div class="modal-header">
+		        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        	<h4 class="modal-title">Error!</h4>
+		      	</div>
+		      	<div class="modal-body">
+		        	<p>Please <a href="{{ url('/login') }}">Login</a> to vote</p>
+		      	</div>
+		      	<div class="modal-footer">
+		        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		      	</div>
+	    	</div>
+	  	</div>
 	</div>
 	<div class="row">
 		<div class="container">
@@ -22,7 +31,7 @@
 			<hr>
 		</div>
 		<div class="col-md-8">
-			<div style="display: block;">
+			<div style="overflow: hidden;">
 				<div style="width: 10%; display: inline-block; float: left; padding: 5px;" class="text-center" id="qvote">
 					<?php
 						if (Auth::check() && Auth::user()->email == $question->user->email) {
@@ -39,6 +48,9 @@
 									break;
 								}
 							}
+						}
+						else if (!Auth::check()) {
+							echo '<a href="#" style="color: #bbb;" data-toggle="modal" data-target="#error"><span class="glyphicon glyphicon-chevron-up" style="font-size: 50px;"></span></a>';
 						}
 						else {
 							echo '<a href="#" style="color: #bbb;"><span class="glyphicon glyphicon-chevron-up" style="font-size: 50px;"></span></a>';
@@ -76,7 +88,7 @@
 
 										echo created_at($time).' ago';
 
-										function created_at ($time){
+										function created_at($time){
 
 										    $time = time() - $time;
 										    $time = ($time<1)? 1 : $time;
@@ -114,54 +126,83 @@
 			</div>
 			<div><br>
 				<h1>{{ $question->answers()->count() }} {{ $question->answers()->count() > 1 ? 'answers' : 'answer' }}</h1> <hr>
+				<?php $i = 0; $a = 0; ?>
 				@foreach ($question->answers as $answer)
-					<div>
-						{!! $answer->answer !!}
-						<div style="float: right;" class="ad-user-info">
-							<small><?php
-								$full = false;
-								$now = new DateTime;
-								$ago = new DateTime($answer->created_at);
-								$diff = $now->diff($ago);
-								$diff->w = floor($diff->d / 7);
-								$diff->d -= $diff->w * 7;
-								$string = array(
-									'y' => 'year',
-									'm' => 'month',
-									'w' => 'week',
-									'd' => 'day',
-									'h' => 'hour',
-									'i' => 'minute',
-									's' => 'second',
-								);
-								foreach ($string as $k => &$v) {
-									if ($diff->$k) {
-										$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
-									} else {
-										unset($string[$k]);
+					<div style="overflow: hidden;" id="{{ $answer->id }}">
+						<div class="{{ $answer->id }}" style="width: 10%; display: inline-block; float: left; padding: 5px; text-align: center;" id="avote{{ $i++ }}<?php $ia = $i; ?>">
+							<?php
+								if (Auth::check() && Auth::user()->email == $answer->user->email) {
+									echo '<span class="glyphicon glyphicon-chevron-up" style="font-size: 50px; color: #bbb;"></span>';
+								}
+								else if ($answer->avotes()->count() > 0) {
+									foreach ($answer->avotes as $avote) {
+										if (Auth::check() && Auth::user()->email == $avote->user->email) {
+											echo '<span class="glyphicon glyphicon-chevron-up" style="font-size: 50px; color: orange;"></span>';
+											break;
+										}
+										else {
+											echo '<a href="#" style="color: #bbb;"><span class="glyphicon glyphicon-chevron-up" style="font-size: 50px;"></span></a>';
+											break;
+										}
 									}
 								}
-								if (!$full) $string = array_slice($string, 0, 1);
-								echo $string ? implode(', ', $string) . ' ago' : 'just now';
-							?></small>
-							<br>
-							<a href="{{ route('users.show', $answer->user->id) }}">
-								<img src="{{ $answer->user->pro_pic }}" alt="profile picture" width="50" height="50">
-								<div style="display: inline-block; vertical-align: middle;">
-									<div>{{ $answer->user->reputation }}</div>
-									{{ $answer->user->name }}
-								</div>
-							</a>
+								else if (!Auth::check()) {
+									echo '<a href="#" style="color: #bbb;" data-toggle="modal" data-target="#error"><span class="glyphicon glyphicon-chevron-up" style="font-size: 50px;"></span></a>';
+								}
+								else {
+									echo '<a href="#" style="color: #bbb;"><span class="glyphicon glyphicon-chevron-up" style="font-size: 50px;"></span></a>';
+								}
+							?>
+							<h2 style="margin: 0;">{{ $answer->avotes()->count() }}</h2>
 						</div>
-						<div>
-							<small><a href="{{ route('answers.edit', $answer->id) }}">Edit</a></small>
-							@if (!Auth::guest())
-								@if (Auth::user()->id == $answer->user_id)
-									<small><a href="{{ route('answers.delete', $answer->id) }}">Delete</a></small>
+						<div style="width: 90%; display: inline-block; float: right;" id="answer{{ $a++ }}<?php $ai = $a; ?>">
+							{!! $answer->answer !!}
+							<div style="float: right;" class="ad-user-info">
+								<small><?php
+									$full = false;
+									$now = new DateTime;
+									$ago = new DateTime($answer->created_at);
+									$diff = $now->diff($ago);
+									$diff->w = floor($diff->d / 7);
+									$diff->d -= $diff->w * 7;
+									$string = array(
+										'y' => 'year',
+										'm' => 'month',
+										'w' => 'week',
+										'd' => 'day',
+										'h' => 'hour',
+										'i' => 'minute',
+										's' => 'second',
+									);
+									foreach ($string as $k => &$v) {
+										if ($diff->$k) {
+											$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+										} else {
+											unset($string[$k]);
+										}
+									}
+									if (!$full) $string = array_slice($string, 0, 1);
+									echo $string ? implode(', ', $string) . ' ago' : 'just now';
+								?></small>
+								<br>
+								<a href="{{ route('users.show', $answer->user->id) }}">
+									<img src="{{ $answer->user->pro_pic }}" alt="profile picture" width="50" height="50">
+									<div style="display: inline-block; vertical-align: middle;">
+										<div>{{ $answer->user->reputation }}</div>
+										{{ $answer->user->name }}
+									</div>
+								</a>
+							</div>
+							<div>
+								<small><a href="{{ route('answers.edit', $answer->id) }}">Edit</a></small>
+								@if (!Auth::guest())
+									@if (Auth::user()->id == $answer->user_id)
+										<small><a href="{{ route('answers.delete', $answer->id) }}">Delete</a></small>
+									@endif
 								@endif
-							@endif
+							</div>
 						</div>
-					</div><hr style="margin-top: 100px;">
+					</div><hr>
 				@endforeach
 			</div>
 			<div>
@@ -204,22 +245,31 @@
 					_token: '{{ csrf_token() }}',
 					user_id: {{ Auth::user()->id }},
 					question_id: {{ $question->id }},
-				}
+				};
 				$.post("{{url('/qvote')}}", $request, function(result) {
 			        $('#qvote h2').html(result);
 					$('#qvote a span').css('color', 'orange');
 					$('#qvote a span').unwrap();
 			    });
-			@else
-				$('#error').show('fast');
-				var er = $('#error #e-heading');
-				er.css('border-bottom', '2px solid red');
-				er.css('color', 'red');
-				er.html('Error!');
-				$('#error #e-body').html('Please <a href="/login">sign in</a> to vote');
 			@endif
-		})
-		$('#qvote').css('height', $('#question').height());
+		});
+		@for ($i=0; $i < $ia; $i++)
+			@if (Auth::user())
+				$('#avote{{ $i }} > a').click(function(e) {
+					$data{{ $i }} = {
+						_token: '{{ csrf_token() }}',
+						user_id: {{ Auth::user()->id }},
+						answer_id: $('#avote{{ $i }}').attr('class'),
+					};
+					e.preventDefault();
+					$.post("{{ url('/avote') }}", $data{{ $i }}, function(result) {
+						$('#avote{{ $i }} h2').html(result);
+						$('#avote{{ $i }} a span').css('color', 'orange');
+						$('#avote{{ $i }} a span').unwrap();
+					});
+				});
+			@endif
+		@endfor
 	</script>
 
 @endsection
