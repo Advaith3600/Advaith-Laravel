@@ -46,5 +46,5 @@ Route::put('answer/{id}/edit', ['uses' => 'AnswerController@update', 'as' => 'an
 Route::get('answer/delete/{id}', ['uses' => 'AnswerController@delete', 'as' => 'answers.delete'])->middleware('auth');
 Route::delete('answer/delete/{id}', ['uses' => 'AnswerController@destroy', 'as' => 'answers.destroy'])->middleware('auth');
 // Votes
-Route::post('qvote', 'voteController@qvote')->middleware('auth');
-Route::post('avote', 'voteController@avote')->middleware('auth');
+Route::put('qvote', 'voteController@qvote')->middleware('auth');
+Route::put('avote', 'voteController@avote')->middleware('auth');

@@ -67,13 +67,13 @@
 				</div>
 			</div>
 			<div class="ad-bd">
-				Joined on
+				Joined before
 				<?php
-					$time = strtotime($user->created_at);
+					$time = strtotime(Auth::user()->created_at);
 
 					echo created_at($time).' ago';
 
-					function created_at ($time){
+					function created_at($time) {
 
 					    $time = time() - $time;
 					    $time = ($time<1)? 1 : $time;
@@ -96,13 +96,42 @@
 					}
 				?>
 				<hr>
-				Last profile edited
+				Last login was
 				<?php
-					$time = strtotime($user->updated_at);
+					$time = strtotime(Auth::user()->updated_at);
+
+					echo viewed_at($time).' ago';
+
+					function viewed_at($time) {
+
+					    $time = time() - $time;
+					    $time = ($time<1)? 1 : $time;
+					    $tokens = array (
+					        31536000 => 'year',
+					        2592000 => 'month',
+					        604800 => 'week',
+					        86400 => 'day',
+					        3600 => 'hour',
+					        60 => 'minute',
+					        1 => 'second'
+					    );
+
+					    foreach ($tokens as $unit => $text) {
+					        if ($time < $unit) continue;
+					        $numberOfUnits = floor($time / $unit);
+					        return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
+					    }
+
+					}
+				?>
+				<hr>
+				Last profile edit was
+				<?php
+					$time = strtotime(Auth::user()->updated_at);
 
 					echo updated_at($time).' ago';
 
-					function updated_at ($time){
+					function updated_at($time) {
 
 					    $time = time() - $time;
 					    $time = ($time<1)? 1 : $time;

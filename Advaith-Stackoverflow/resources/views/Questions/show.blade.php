@@ -129,7 +129,7 @@
 				<?php $i = 0; $a = 0; ?>
 				@foreach ($question->answers as $answer)
 					<div style="overflow: hidden;" id="{{ $answer->id }}">
-						<div class="{{ $answer->id }}" style="width: 10%; display: inline-block; float: left; padding: 5px; text-align: center;" id="avote{{ $i++ }}<?php $ia = $i; ?>">
+						<div class="{{ $answer->id }}" style="width: 10%; display: inline-block; float: left; padding: 5px; text-align: center;" id="avote{{ $i++ }}"><?php $ia = $i; ?>
 							<?php
 								if (Auth::check() && Auth::user()->email == $answer->user->email) {
 									echo '<span class="glyphicon glyphicon-chevron-up" style="font-size: 50px; color: #bbb;"></span>';
@@ -246,30 +246,42 @@
 					user_id: {{ Auth::user()->id }},
 					question_id: {{ $question->id }},
 				};
-				$.post("{{url('/qvote')}}", $request, function(result) {
-			        $('#qvote h2').html(result);
-					$('#qvote a span').css('color', 'orange');
-					$('#qvote a span').unwrap();
-			    });
-			@endif
-		});
-		@for ($i=0; $i < $ia; $i++)
-			@if (Auth::user())
-				$('#avote{{ $i }} > a').click(function(e) {
-					$data{{ $i }} = {
-						_token: '{{ csrf_token() }}',
-						user_id: {{ Auth::user()->id }},
-						answer_id: $('#avote{{ $i }}').attr('class'),
-					};
-					e.preventDefault();
-					$.post("{{ url('/avote') }}", $data{{ $i }}, function(result) {
-						$('#avote{{ $i }} h2').html(result);
-						$('#avote{{ $i }} a span').css('color', 'orange');
-						$('#avote{{ $i }} a span').unwrap();
-					});
+				$.ajax({
+				    url: "{{ url('/qvote') }}",
+				    data: $request,
+				    method: "PUT",
+				    success: function(result) {
+				        $('#qvote h2').html(result);
+				        $('#qvote a span').css('color', 'orange');
+				        $('#qvote a span').unwrap();
+				    }
 				});
 			@endif
-		@endfor
+		});
+		@if ($question->answers()->count() > 0)
+			@for ($i=0; $i < $ia; $i++)
+				@if (Auth::user())
+					$('#avote{{ $i }} > a').click(function(e) {
+						$data{{ $i }} = {
+							_token: '{{ csrf_token() }}',
+							user_id: {{ Auth::user()->id }},
+							answer_id: $('#avote{{ $i }}').attr('class'),
+						};
+						e.preventDefault();
+						$.ajax({
+							url: "{{ url('/avote') }}",
+							data: $data{{ $i }},
+							method: "PUT",
+							success: function(result) {
+								$('#avote{{ $i }} h2').html(result);
+								$('#avote{{ $i }} a span').css('color', 'orange');
+								$('#avote{{ $i }} a span').unwrap();
+							}
+						});
+					});
+				@endif
+			@endfor
+		@endif
 	</script>
 
 @endsection

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\User;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -32,6 +34,13 @@ class LoginController extends Controller
      *
      * @return void
      */
+
+    protected function authenticated() {
+        $user = User::find(Auth::user()->id);
+        $user->viewed_at = date('Y-m-d H:i:s');
+        $user->save();
+    }
+
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);

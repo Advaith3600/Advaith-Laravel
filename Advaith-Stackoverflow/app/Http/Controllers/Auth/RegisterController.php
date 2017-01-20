@@ -68,6 +68,7 @@ class RegisterController extends Controller
         $user->email = Input::get('email');
         $user->password = bcrypt(Input::get('password'));
         $user->pro_pic = "https://www.gravatar.com/avatar/" . md5(strtolower(trim(Input::get('email')))) . "?d=identicon";
+        $user->viewed_at = date('Y-m-d H:i:s');
         
         $user->save();
         return $user;

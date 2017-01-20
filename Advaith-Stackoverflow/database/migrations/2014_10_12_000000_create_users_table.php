@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->text('bio')->nullable();
             $table->integer('reputation')->default(0);
             $table->string('password');
+            $table->DateTime('viewed_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

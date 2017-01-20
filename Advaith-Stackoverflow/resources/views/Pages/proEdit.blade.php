@@ -25,7 +25,10 @@
 	        		<div>
 	        			{!! Form::open(['method' => 'PUT', 'route' => ['profile.image', Auth::user()->id], 'files' => true]) !!}
 	        				{{ csrf_field() }}
-							<input type="file" class="btn btn-block btn-primary" style="margin-top: 10px;" name="pro_pic">
+							<label for="file-upload" class="btn btn-primary btn-block" style="margin-top: 10px; margin-bottom: 10px;">
+							    Upload Image
+							</label>
+							<input id="file-upload" name='pro_pic' type="file" style="display:none;">
 							{{ Form::submit('Change Image', ['class' => 'btn btn-success btn-block']) }}
 						{!! Form::close() !!}
 	        		</div>
@@ -79,6 +82,11 @@
 			img.attr('width', '100%');
 			img.attr('height', 200);
 		}
+		$('#file-upload').change(function() {
+		  	var i = $(this).prev('label').clone();
+		  	var file = $('#file-upload')[0].files[0].name;
+		  	$(this).prev('label').text(file);
+		});
 	</script>
 
 @endsection
